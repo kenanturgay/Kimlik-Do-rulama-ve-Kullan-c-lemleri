@@ -1,27 +1,20 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useHistory, useLocation } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { AuthContext } from '../contexts/AuthContext';
 
 function LoginForm() {
+  const {login} =useContext(AuthContext)
   const [form, setForm] = useState({
     username: '',
     password: '',
   });
 
   const history = useHistory();
-  const location = useLocation();
+  
 
-  const handleSubmit = async (e) => {
+  const handleSubmit =  (e) => {
     e.preventDefault();
-
-    axios
-      .post('https://nextgen-project.onrender.com/api/s11d2/login', form)
-      .then((res) => {
-        console.log('Login oldu: ', res.data);
-        setForm(res.data.name);
-        history.push(location.state.referrer);
-      })
-      .catch((error) => console.error('Login Hata: ', error));
+    login(form);
   };
 
   const handleChange = (e) => {
@@ -37,7 +30,7 @@ function LoginForm() {
         <h1>LOGIN</h1>
         <form onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="username"></label>
+            <h2 htmlFor="username">UserName</h2>
             <input
               type="text"
               id="username"
@@ -48,7 +41,7 @@ function LoginForm() {
             />
           </div>
           <div>
-            <label htmlFor="password"></label>
+            <h2 htmlFor="password">Password</h2>
             <input
               type="password"
               id="password"
